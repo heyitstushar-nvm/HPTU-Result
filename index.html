@@ -1,0 +1,827 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>HPTU Result Portal</title>
+
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f5f5f5;
+        line-height: 1.6;
+      }
+      .header {
+        background: #f58220;
+        color: white;
+        text-align: center;
+        padding: 30px 20px;
+      }
+      .logo {
+        width: 90px;
+        display: block;
+        margin: auto;
+        margin-bottom: 10px;
+      }
+      .nav {
+        background: #333;
+        color: white;
+        text-align: center;
+        padding: 15px;
+        font-size: 16px;
+      }
+      .container {
+        max-width: 900px;
+        width: 90%;
+        margin: 60px auto;
+        background: white;
+        padding: 50px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        border-radius: 12px;
+      }
+      input,
+      select {
+        width: 100%;
+        padding: 18px;
+        margin: 20px 0;
+        font-size: 18px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        box-sizing: border-box;
+      }
+      button {
+        background: #f58220;
+        color: white;
+        border: none;
+        padding: 18px 40px;
+        font-size: 18px;
+        cursor: pointer;
+        border-radius: 8px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      button:hover {
+        background: #d96a10;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 30px 0;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid #ccc;
+      }
+      th {
+        background: #f58220;
+        color: white;
+      }
+      th,
+      td {
+        padding: 15px 12px;
+        text-align: center;
+        font-size: 15px;
+      }
+      .pass {
+        color: green;
+        font-weight: bold;
+      }
+      .fail {
+        color: red;
+        font-weight: bold;
+      }
+      .footer {
+        background: #222;
+        color: white;
+        text-align: center;
+        padding: 20px;
+        margin-top: 40px;
+        font-size: 14px;
+      }
+      #result {
+        margin-top: 30px;
+      }
+      #result h3 {
+        margin: 0 0 20px 0;
+        color: #333;
+      }
+      #result p {
+        margin: 0 0 15px 0;
+        font-size: 16px;
+      }
+      #result table {
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          width: 95%;
+          padding: 30px 20px;
+          margin: 30px auto;
+        }
+        input,
+        button {
+          font-size: 16px;
+          padding: 16px;
+        }
+        th,
+        td {
+          padding: 10px 8px;
+          font-size: 14px;
+        }
+        .header {
+          padding: 20px 15px;
+        }
+        .logo {
+          width: 70px;
+        }
+        .nav {
+          padding: 12px;
+          font-size: 15px;
+        }
+        table {
+          font-size: 13px;
+        }
+      }
+      @media (max-width: 480px) {
+        .container {
+          width: 98%;
+          padding: 20px 15px;
+        }
+        th,
+        td {
+          padding: 8px 5px;
+          font-size: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <!-- Logo above the text -->
+      <img
+        src="data:image/jpeg;base64,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"
+        alt="HPTU Logo"
+        class="logo"
+      />
+
+      <h1>Himachal Pradesh Technical University</h1>
+      <p>Examination Result Portal</p>
+      <p>B.Tech 4th Semester Examination – December 2025</p>
+    </div>
+
+    <div class="nav">Enter Roll Number OR Student Name to Check Result</div>
+
+    <div class="container">
+      <h2 style="color: #f58220">Check Result</h2>
+
+      <input type="text" id="roll" placeholder="Enter Roll Number" />
+
+      <input type="text" id="name" placeholder="Enter Student Name" />
+
+      <br /><br />
+      <center>
+        <button onclick="search()">Search Result</button>
+      </center>
+
+      <div id="result"></div>
+    </div>
+
+    <div class="footer">
+      © 2025 Himachal Pradesh Technical University Result Portal
+    </div>
+
+    <script>
+      // Full Student Data
+      const students = [
+        {
+          roll: "240603010060",
+          name: "AAKRITI SHARMA",
+          father: "CHANDER SHEKHAR",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010061",
+          name: "AASHISH",
+          father: "ARUN KUMAR",
+          branch: "Computer Science Engineering",
+          status: "dull",
+        },
+        {
+          roll: "240603010062",
+          name: "ABHAY BHARTI",
+          father: "KAMAL DEEP",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010063",
+          name: "ABHAY THAKUR",
+          father: "GURDEV SINGH",
+          branch: "Computer Science Engineering",
+          status: "dull",
+        },
+        {
+          roll: "240603010064",
+          name: "ABHINAV JAWMAL",
+          father: "SUNIT KUMAR",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010065",
+          name: "ABHISHEK",
+          father: "AJAY KUMAR",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010066",
+          name: "ABHISHEK DOGRA",
+          father: "SANJAY DOGRA",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010067",
+          name: "ADARSH KUMAR",
+          father: "VIKRAM JIT",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010068",
+          name: "ADITI SHARMA",
+          father: "SOMNATH",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010069",
+          name: "AKANKSHA CHOUDHARY",
+          father: "YUGALKISHORE",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010070",
+          name: "AKSHAT KUMAR CHAUDHARY",
+          father: "AJAY KUMAR CHAUDHARY",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010071",
+          name: "AKSHAY KHULLAR",
+          father: "VISHWANATH",
+          branch: "Computer Science Engineering",
+          status: "dull",
+        },
+        {
+          roll: "240603010072",
+          name: "AMIT BHARDWAJ",
+          father: "HARBANS SINGH",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010073",
+          name: "AMITYA MOHAN",
+          father: "LALIT MOHAN",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010074",
+          name: "AMULYA",
+          father: "AJAY KUMAR",
+          branch: "Computer Science Engineering",
+          status: "dull",
+        },
+        {
+          roll: "240603010075",
+          name: "ANKIT KOUNDAL",
+          father: "VIJAY KUMAR",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010076",
+          name: "ANKIT SHANDIL",
+          father: "MADHO RAM SHANDIL",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010077",
+          name: "ANMAY ANAND",
+          father: "RAMAN ANAND",
+          branch: "Computer Science Engineering",
+          status: "dull",
+        },
+        {
+          roll: "240603010078",
+          name: "ANSHIKA",
+          father: "SANJEEV SINGH",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010079",
+          name: "ANSHUL SHARMA",
+          father: "ASHWANI KUMAR",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010080",
+          name: "ARNAV PATHANIA",
+          father: "MANISH PATHANIA",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010081",
+          name: "ARYAN",
+          father: "SANJAY KUMAR",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010082",
+          name: "ARYAN KUMAR",
+          father: "SURJEET SINGH",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010083",
+          name: "ARYAN VERMA",
+          father: "ANURAG VERMA",
+          branch: "Computer Science Engineering",
+          status: "dull",
+        },
+        {
+          roll: "240603010084",
+          name: "DEEPANJALI DHIMAN",
+          father: "PAWAN KUMAR",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010085",
+          name: "DEEPIKA SHARMA",
+          father: "SATISH KUMAR",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010086",
+          name: "DIKSHA GAUTAM",
+          father: "KULDEEP",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010087",
+          name: "DIVANSH",
+          father: "PREM CHAND",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010088",
+          name: "DIVYANSHI KUMARI",
+          father: "MUKESH KUMAR",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010089",
+          name: "DIVYANSHU",
+          father: "PROSHTAM CHAND",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010090",
+          name: "DIWANSHI",
+          father: "KASHMIR SINGH",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010091",
+          name: "JIYA THAKUR",
+          father: "NARENDER KUMAR",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010092",
+          name: "KOMAL",
+          father: "KALI DASS",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010093",
+          name: "LIVASHA",
+          father: "SHRI DURGA DAS",
+          branch: "Computer Science Engineering",
+          status: "dull",
+        },
+        {
+          roll: "240603010094",
+          name: "MUSKAN CHAUHAN",
+          father: "SURESH KUMAR",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010095",
+          name: "MUSKAN CHAUHAN",
+          father: "SURESH KUMAR",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010096",
+          name: "NAVNEET",
+          father: "UTTAM CHAND",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010097",
+          name: "NITIN KHARWAL",
+          father: "HARBANS LAL",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010098",
+          name: "PARTYKSH SHARMA",
+          father: "RAJEEV KUMAR DOGRA",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010099",
+          name: "PAYAL",
+          father: "RINKU KUMAR",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010100",
+          name: "PRINCE KAUSHAL",
+          father: "SURINDER KUMAR",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010101",
+          name: "PRIYANSHU SHARMA",
+          father: "SUNDEEP BHARTI",
+          branch: "Computer Science Engineering",
+          status: "dull",
+        },
+        {
+          roll: "240603010102",
+          name: "RIDHAM CHOUDHARY",
+          father: "SUNIL KUMAR",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010103",
+          name: "RIJUL SHARMA",
+          father: "BALJIT KUMAR SHARMA",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010104",
+          name: "RISHITA SHARMA",
+          father: "MANOJ KUMAR",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010105",
+          name: "RISHUL",
+          father: "RAKESH KUMAR",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010106",
+          name: "RITEEK SHARMA",
+          father: "MADAN LAL",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010107",
+          name: "RIYA PARMAR",
+          father: "SURJEET SINGH",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010108",
+          name: "RIYA RANA",
+          father: "ASHA PURAN",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010109",
+          name: "ROHIT KUMAR",
+          father: "HARVANSH LAL",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010110",
+          name: "SAIN PRIYA",
+          father: "SURINDER SINGH",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010111",
+          name: "SAKSHAM CHOUDHARY",
+          father: "AJAY CHOUDHARY",
+          branch: "Computer Science Engineering",
+          status: "dull",
+        },
+        {
+          roll: "240603010112",
+          name: "SAKSHI",
+          father: "NARESH KUMAR",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010113",
+          name: "SAMRITI THAKUR",
+          father: "SUNIL KUMAR",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010114",
+          name: "SHANVI",
+          father: "RISHU KUMAR",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010115",
+          name: "SHASHANK PATIAL",
+          father: "BALWANT SINGH",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010116",
+          name: "SHAURYA THAKUR",
+          father: "RAMESH KUMAR THAKUR",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010117",
+          name: "SHAVI SHARMA",
+          father: "ANIL KUMAR",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010118",
+          name: "SHIVESH RANA",
+          father: "ASHOK KUMAR",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010119",
+          name: "SHREYEN DHIMAN",
+          father: "SANJAY DHIMAN",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010120",
+          name: "SIMRAN",
+          father: "JASWINDER SINGH",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010121",
+          name: "SINCHAN PATHANIA",
+          father: "SWATANTER PATHANIA",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010122",
+          name: "SUBHAM KUMAR",
+          father: "ASHWANI KUMAR",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010123",
+          name: "SUJAL KUMAR",
+          father: "SWATANTAR KUMAR",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010124",
+          name: "SUJAL SHARMA",
+          father: "PAWAN KUMAR",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010125",
+          name: "SURESH KUMAR",
+          father: "SUKH DEV",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010126",
+          name: "SUYOG NEGI",
+          father: "YOGAISH NEGI",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010127",
+          name: "TUSHAR",
+          father: "RUSTAM KUMAR",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010128",
+          name: "TUSHAR THAKUR",
+          father: "PARDEEP KUMAR",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010129",
+          name: "VANSH CHAMBIAL",
+          father: "NAVAL KUMAR",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010130",
+          name: "VANSHIKA",
+          father: "RAJVIR SINGH",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010131",
+          name: "VISHAV KUMAR CHOUDHARY",
+          father: "ASHWANI KUMAR",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010132",
+          name: "YASH MEHRA",
+          father: "PAWAN MEHRA",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+        {
+          roll: "240603010133",
+          name: "YASHIKA",
+          father: "RAJEEV KUMAR",
+          branch: "Computer Science Engineering",
+          status: "active",
+        },
+      ];
+
+      // Subjects with codes
+      const subjects = [
+        "Data Structures & Algorithms (DSA)",
+        "Data Structures Lab",
+        "Python Programming",
+        "Python Programming Lab",
+        "Digital System Design",
+        "Digital System Design Lab",
+        "Computer Organization & Architecture (COA)",
+        "Indian Knowledge System",
+        "Engineering Economics",
+        "Probability Theory & Statistics",
+      ];
+
+      const subjectCodes = {
+        "Data Structures & Algorithms (DSA)": "CSPC-311",
+        "Data Structures Lab": "CSPC-311P",
+        "Python Programming": "CSPC-312",
+        "Python Programming Lab": "CSPC-312P",
+        "Digital System Design": "ECEPC-312",
+        "Digital System Design Lab": "ECEPC-312P",
+        "Computer Organization & Architecture (COA)": "CSPC-313",
+        "Indian Knowledge System": "IKS-311",
+        "Engineering Economics": "HS-311",
+        "Probability Theory & Statistics": "MAFC-311",
+      };
+
+      // Add marks dynamically
+      students.forEach((s) => {
+        s.marks = {};
+        subjects.forEach((sub) => {
+          s.marks[sub] = getRandomGradePoint();
+        });
+      });
+
+      // No dropdown population needed for input field
+
+      // Function to get grade point and letter grade
+      function getRandomGradePoint() {
+        const points = [10, 9, 8, 7, 6, 5, 0];
+        return points[Math.floor(Math.random() * points.length)];
+      }
+
+      function getGrade(point) {
+        if (point == 10) return { point: 10, letter: "O" };
+        if (point == 9) return { point: 9, letter: "A+" };
+        if (point == 8) return { point: 8, letter: "A" };
+        if (point == 7) return { point: 7, letter: "B+" };
+        if (point == 6) return { point: 6, letter: "B" };
+        if (point == 5) return { point: 5, letter: "C" };
+        return { point: 0, letter: "F" };
+      }
+
+      // Search Function
+      function search() {
+        let roll = document.getElementById("roll").value.toLowerCase();
+        let name = document.getElementById("name").value.toLowerCase();
+        let student = null;
+
+        for (let s of students) {
+          if (
+            (s.roll.toLowerCase() == roll && roll != "") ||
+            (s.name.toLowerCase() == name && name != "")
+          ) {
+            student = s;
+            break;
+          }
+        }
+
+        if (!student) {
+          document.getElementById("result").innerHTML =
+            "<p style='color:red'>Result Not Found</p>";
+          return;
+        }
+
+        let m = student.marks;
+        let totalMarks = 0;
+        let totalGradePoints = 0;
+        let failedSubjects = [];
+        let table = `<table><tr><th>Subject</th><th>Subject Code</th><th>Marks</th><th>Grade</th></tr>`;
+        for (let sub in m) {
+          let point = m[sub];
+          let grade = getGrade(point);
+          table += `<tr><td>${sub}</td><td>${subjectCodes[sub]}</td><td>${point}</td><td>${grade.letter}</td></tr>`;
+          totalMarks += point;
+          totalGradePoints += grade.point;
+          if (point < 5) failedSubjects.push(subjectCodes[sub]);
+        }
+        table += `</table>`;
+
+        let sgpa = (totalGradePoints / subjects.length).toFixed(2);
+        let resultText =
+          failedSubjects.length > 0
+            ? `<b>Result:</b> ${failedSubjects.join(", ")}`
+            : "<b>Result: PASS</b>";
+
+        document.getElementById("result").innerHTML = `
+    <h3>Student Details</h3>
+    <p><b>Roll Number:</b> ${student.roll}</p>
+    <p><b>Name:</b> ${student.name}</p>
+    <p><b>Father's Name:</b> ${student.father}</p>
+    <p><b>Branch:</b> ${student.branch}</p>
+    ${table}
+    <p><b>SGPA:</b> ${sgpa}</p>
+    <p><b>${resultText}</b></p>
+    `;
+      }
+    </script>
+  </body>
+</html>
