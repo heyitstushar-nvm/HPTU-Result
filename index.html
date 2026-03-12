@@ -31,12 +31,13 @@
         font-size: 16px;
       }
       .container {
-        max-width: 900px;
-        width: 90%;
+        max-width: 800px;
+        width: 85%;
         margin: 60px auto;
         background: white;
         padding: 50px;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.25);
+        border: 2px solid #e0e0e0;
         border-radius: 12px;
       }
       input,
@@ -115,47 +116,123 @@
       }
 
       @media (max-width: 768px) {
+        html, body {
+          font-size: 125% !important; /* Stronger zoom */
+        }
         .container {
           width: 95%;
           padding: 30px 20px;
-          margin: 30px auto;
+          margin: 20px auto 100px auto;
+          min-height: calc(100vh - 200px); /* Full height minus header/nav/footer */
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          border: 3px solid #f58220;
+          box-shadow: 0 6px 40px rgba(0, 0, 0, 0.3);
+        }
+        h2 {
+          margin-bottom: 20px;
         }
         input,
         button {
+          font-size: 20px;
+          padding: 20px;
+        }
+        th,
+        td {
+          padding: 12px 10px;
           font-size: 16px;
-          padding: 16px;
+          word-break: break-word;
+        }
+        .header {
+          padding: 25px 15px;
+        }
+        .logo {
+          width: 85px;
+        }
+        .nav {
+          padding: 15px;
+          font-size: 17px;
+        }
+        table {
+          font-size: 15px;
+          width: 100%;
+        }
+#result {
+          max-height: 60vh;
+          overflow-y: auto;
+          border: 4px solid #f58220;
+          border-radius: 12px;
+          padding: 20px;
+          margin-top: 20px;
+          background: linear-gradient(135deg, #fafafa, #f0f8ff);
+          box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+          width: 100%;
+          box-sizing: border-box;
+        }
+        #result table {
+          margin-bottom: 15px;
+        }
+      }
+      @media (max-width: 480px) {
+        html, body {
+          font-size: 135% !important;
+        }
+        .container {
+          width: 98%;
+          padding: 25px 15px;
+          margin: 10px auto 110px auto;
+          min-height: calc(100vh - 220px);
+        }
+        input,
+        button {
+          font-size: 22px;
+          padding: 22px;
         }
         th,
         td {
           padding: 10px 8px;
-          font-size: 14px;
-        }
-        .header {
-          padding: 20px 15px;
-        }
-        .logo {
-          width: 70px;
-        }
-        .nav {
-          padding: 12px;
           font-size: 15px;
         }
-        table {
-          font-size: 13px;
+        .logo {
+          width: 90px;
+        }
+        #result {
+          max-height: 55vh;
+          padding: 18px;
         }
       }
-      @media (max-width: 480px) {
-        .container {
-          width: 98%;
-          padding: 20px 15px;
-        }
-        th,
-        td {
-          padding: 8px 5px;
-          font-size: 12px;
-        }
+      /* Fixed footer at bottom */
+      .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #222;
+        color: white;
+        text-align: center;
+        padding: 15px;
+        font-size: 13px;
+        z-index: 1000;
+        margin: 0;
       }
     </style>
+</xai:function_call
+</xai:function_call
+</xai:function_call
+>  </head>
+</xai:function_call
+<xai:function_call name="edit_file">
+<parameter name="path">hptu/TODO.md
+</xai:function_call
+
+
+
+
+
+<xai:function_call name="edit_file">
+<parameter name="path">hptu/index.html
   </head>
   <body>
     <div class="header">
@@ -189,8 +266,12 @@
     </div>
 
     <div class="footer">
-      © 2025 Himachal Pradesh Technical University Result Portal
+      © 2026 Himachal Pradesh Technical University Result Portal
     </div>
+</xai:function_call
+
+<xai:function_call name="edit_file">
+<parameter name="path">hptu/TODO.md
 
     <script>
       // Full Student Data
